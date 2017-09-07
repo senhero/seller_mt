@@ -45,23 +45,24 @@ vue2.0废除了v-el指令，所有的节点指令修改为ref，然后通过refs
 ```html
 <div ref="testHook">test</div>
 ...js code
-this.$ref.testHook
+this.$refs.testHook
 ```
 ### 组件间的通信
 - 如果父级和子组件通信，则使用ref就可以实现，如：
 ```html
 <test ref="testHook"></test>
 ...js code
-this.$ref.testHook.add() //调用test子组件的add方法
+this.$refs.testHook.add() //调用test子组件的add方法
 ```
 - 使用emit来发送广播
 
     vue2提供了一套广播机制，即一边发送广播，一边接收广播来执行相应操作。使用方法如下：
 ```javascript
+  
   export default {
-  method:{
+  methods:{
   	click(){
-  	  Vue.$emit('add',{}) //第二个参数可作为传递数据传送到监听端口，不需要则传空对象
+  	  this.$emit('add',1) //第二个参数可作为传递数据传送到监听端口，不需要则传空对象
   	}
   }
 }
@@ -70,11 +71,13 @@ this.$ref.testHook.add() //调用test子组件的add方法
 ```javascript
 export default {
   created(){
-   Vue.$on('add',this.add)
+   this.$on('add',function(id){ //id接受过来的参数
+       this.add(id); 
+   })
   },
-  method:{
-  	add(){
-  	  this.count++
+  methods:{
+  	add(id){
+  	  this.count + id;
   	}
   }
 }
@@ -98,7 +101,7 @@ proxyTable: {
 # install dependencies
 npm install
 
-# serve proxy localhost:9000
+# server proxy localhost:9000
 node prodsever.js
 
 # server will run localhost:8181
