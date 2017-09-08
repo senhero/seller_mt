@@ -111,5 +111,5 @@ node prodsever.js
 npm run dev
 
 ```
-### LISTENCE
+### LICENSE
 > MIT
